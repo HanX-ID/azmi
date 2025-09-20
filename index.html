@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Selamat Ulang Tahun yang ke-21!</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Poppins:wght@300;400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #ff6347;
+            --secondary-color: #ffe7d1;
+            --background-start: #f0f0f0;
+            --background-end: #ffe7d1;
+            --text-color: #333;
+            --light-color: #fff;
+            --shadow-color: rgba(0, 0, 0, 0.2);
+        }
+        body {
+            font-family: 'Poppins', sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background: url('https://files.catbox.moe/vc5193.jpg') no-repeat center center fixed;
+            background-size: cover;
+            color: var(--text-color);
+            text-align: center;
+            overflow: hidden;
+            position: relative;
+            animation: none;
+            transition: background-image 1s ease-in-out;
+        }
+        .intro-container, .main-container {
+            background-color: rgba(255, 255, 255, 0.95);
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px var(--shadow-color);
+            max-width: 600px;
+            width: 90%;
+            position: relative;
+            box-sizing: border-box;
+            transform: scale(0.95);
+            animation: fadeInScale 1s ease-in-out forwards;
+        }
+        .intro-container h1, .main-container h1 {
+            font-family: 'Pacifico', cursive;
+            color: var(--primary-color);
+            font-size: 2.8em;
+            margin-bottom: 10px;
+            animation: headingPulse 2s infinite;
+        }
+        .intro-container p, .main-container p {
+            font-size: 1.1em;
+            line-height: 1.6;
+        }
+        .intro-button {
+            padding: 15px 30px;
+            font-size: 1.2em;
+            font-weight: bold;
+            color: var(--light-color);
+            background-color: var(--primary-color);
+            border: none;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(255, 99, 71, 0.4);
+            margin-top: 20px;
+        }
+        .intro-button:hover {
+            transform: translateY(-5px) scale(1.05);
+            background-color: #e5533d;
+            box-shadow: 0 6px 20px rgba(255, 99, 71, 0.5);
+        }
+        .main-container {
+            display: none;
+            animation: scaleIn 0.7s ease-in-out forwards;
+            z-index: 10;
+        }
+        .photo-container {
+            margin: 30px 0;
+            position: relative;
+        }
+        .photo-container img {
+            width: 180px;
+            height: 180px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 5px solid var(--primary-color);
+            box-shadow: 0 0 20px var(--shadow-color);
+            animation: photoBounce 2s infinite ease-in-out;
+        }
+        .dino-nailong, .love-emoji {
+            position: absolute;
+            animation: floatAnim 3s ease-in-out infinite alternate;
+            transform-origin: center;
+        }
+        .dino-nailong {
+            width: 100px;
+        }
+        .love-emoji {
+            width: 50px;
+        }
+        .dino-nailong.bottom-left {
+            bottom: -20px;
+            left: -20px;
+            animation-delay: 0s;
+        }
+        .dino-nailong.top-right {
+            top: -20px;
+            right: -20px;
+            animation: floatAnimReverse 3s ease-in-out infinite alternate;
+            animation-delay: 0.5s;
+        }
+        .dino-nailong.bottom-right {
+            bottom: -10px;
+            right: 10px;
+            animation: floatAnim 3.5s ease-in-out infinite alternate;
+            animation-delay: 1s;
+            transform: scaleX(-1);
+        }
+        .love-emoji.pos1 { top: 5%; left: 10%; animation-delay: 0.2s; }
+        .love-emoji.pos2 { bottom: 15%; right: 5%; animation: floatAnimReverse 3s ease-in-out infinite alternate; animation-delay: 0.8s; }
+        .love-emoji.pos3 { top: 20%; right: 15%; animation-delay: 1.5s; }
+        .love-emoji.pos4 { bottom: 5%; left: 15%; animation: floatAnimReverse 3.2s ease-in-out infinite alternate; animation-delay: 0.4s; }
+        .love-emoji.pos5 { top: 10%; left: 25%; animation-delay: 1s; }
+        .message-modal {
+            display: none;
+            position: fixed;
+            z-index: 20;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            justify-content: center;
+            align-items: center;
+            animation: modalFadeIn 0.5s ease-out;
+            backdrop-filter: blur(5px);
+        }
+        .modal-content {
+            background-color: var(--light-color);
+            padding: 40px;
+            border-radius: 20px;
+            max-width: 500px;
+            width: 90%;
+            box-shadow: 0 5px 25px rgba(0, 0, 0, 0.5);
+            position: relative;
+            transform: scale(0.8);
+            animation: modalScaleUp 0.5s forwards;
+            text-align: left;
+        }
+        .close-button {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: color 0.3s;
+        }
+        .close-button:hover, .close-button:focus {
+            color: #000;
+        }
+        .message-content h2 {
+            font-family: 'Pacifico', cursive;
+            color: var(--primary-color);
+            font-size: 1.8em;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .message-content p {
+            font-size: 1.1em;
+            line-height: 1.7;
+            margin-bottom: 15px;
+        }
+        .confetti-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            overflow: hidden;
+            z-index: 99;
+        }
+        .confetti {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background-color: var(--primary-color);
+            opacity: 0;
+            animation: confetti-fall 3s linear infinite;
+        }
+        .confetti:nth-child(2n) { background-color: #ffb74d; }
+        .confetti:nth-child(3n) { background-color: #7986cb; }
+        .confetti:nth-child(4n) { background-color: #81c784; }
+        .confetti-slow { animation-duration: 4s; animation-delay: 1s; }
+        .confetti-fast { animation-duration: 2s; animation-delay: 0.5s; }
+        @keyframes fadeInScale { from { opacity: 0; transform: scale(0.8); } to { opacity: 1; transform: scale(1); } }
+        @keyframes scaleIn { from { transform: scale(0.8); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+        @keyframes headingPulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+        @keyframes photoBounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+        @keyframes floatAnim {
+            0% { transform: translate(0, 0) rotate(0deg); }
+            100% { transform: translate(15px, -15px) rotate(8deg); }
+        }
+        @keyframes floatAnimReverse {
+            0% { transform: translate(0, 0) rotate(0deg); }
+            100% { transform: translate(-15px, 15px) rotate(-8deg); }
+        }
+        @keyframes modalFadeIn { from { opacity: 0; } to { opacity: 1; } }
+        @keyframes modalScaleUp { from { transform: scale(0.8); } to { transform: scale(1); } }
+        @keyframes confetti-fall {
+            0% { transform: translateY(-100vh) rotate(0deg); opacity: 1; }
+            100% { transform: translateY(100vh) rotate(720deg); opacity: 0.5; }
+        }
+        @media (max-width: 768px) {
+            h1 { font-size: 2em; }
+            h2 { font-size: 1.2em; }
+            .intro-container, .main-container { padding: 30px; }
+            .photo-container img { width: 150px; height: 150px; }
+            .dino-nailong { width: 80px; }
+            .love-emoji { width: 40px; }
+        }
+    </style>
+</head>
+<body>
+    <audio id="background-audio" loop>
+        <source src="music.mp3" type="audio/mpeg">
+    </audio>
+    <div class="intro-container" id="introPage">
+        <img src="dino1.png" alt="Dino Nailong" class="dino-nailong bottom-left">
+        <img src="dino2.png" alt="Dino Nailong" class="dino-nailong top-right">
+        <img src="love1.png" alt="Love Emoji" class="love-emoji pos1">
+        <img src="love2.png" alt="Love Emoji" class="love-emoji pos2">
+        <img src="love3.png" alt="Love Emoji" class="love-emoji pos3">
+        <h1>Buka Pesan Spesial Ini!</h1>
+        <p>ada sesuatu niee coba buka kalo penasarann</p>
+        <button class="intro-button" id="startButton">disini!</button>
+    </div>
+    <div class="main-container" id="mainPage">
+        <img src="dino1.png" alt="Dino Nailong" class="dino-nailong bottom-left">
+        <img src="dino2.png" alt="Dino Nailong" class="dino-nailong top-right">
+        <img src="love1.png" alt="Love Emoji" class="love-emoji pos1">
+        <img src="love2.png" alt="Love Emoji" class="love-emoji pos2">
+        <img src="love3.png" alt="Love Emoji" class="love-emoji pos3">
+        <img src="dino1.png" alt="Dino Nailong" class="dino-nailong bottom-right">
+        <img src="love2.png" alt="Love Emoji" class="love-emoji pos4">
+        <img src="love1.png" alt="Love Emoji" class="love-emoji pos5">
+        <h1>Selamat Ulang Tahun!</h1>
+        <h2 style="font-family: 'Pacifico', cursive; color: #555;">Hacipupuu</h2>
+        <div class="photo-container">
+            <img id="photo-target" src="foto.jpg" alt="Foto Ulang Tahun">
+        </div>
+        <button class="intro-button" id="openMessageButton">pencet aku</button>
+    </div>
+    <div id="messageModal" class="message-modal">
+        <div class="modal-content">
+            <span class="close-button">&times;</span>
+            <div class="message-content">
+                <h2>Happy Birthday!</h2>
+                <p>Selamat ulang tahun yang ke-21, hacipupuu. Nambah 1 nih ya, istrii.</p>
+                <p>Semangat skripsinya, semoga cepat selesai, cepat lulus dan wisuda, supaya bisa membanggakan kedua orangtua. Semoga apa yang diimpikan segera terwujud.</p>
+                <p>Jangan lupa sholat dan berdoa, mendekatkan diri kepada Allah, dan jangan lupa jaga kesehatan ya, istrii.</p>
+                <p style="font-family: 'Pacifico', cursive; color: var(--primary-color); text-align: right; margin-top: 30px; font-size: 1.5em;">lopyuu hacipupuuu mai wife🤗</p>
+            </div>
+        </div>
+    </div>
+    <div class="confetti-container"></div>
+    <script>
+        const audio = document.getElementById('background-audio');
+        const startButton = document.getElementById('startButton');
+        const introPage = document.getElementById('introPage');
+        const mainPage = document.getElementById('mainPage');
+        const openMessageButton = document.getElementById('openMessageButton');
+        const messageModal = document.getElementById('messageModal');
+        const closeButton = document.querySelector('.close-button');
+        const confettiContainer = document.querySelector('.confetti-container');
+        let clickCounter = 5;
+        startButton.addEventListener('click', () => {
+            clickCounter--;
+            if (clickCounter <= 0) {
+                introPage.style.display = 'none';
+                mainPage.style.display = 'block';
+                audio.play();
+                generateConfetti();
+                startButton.textContent = 'disini!';
+            } else {
+                startButton.textContent = `${clickCounter} kali lagi`;
+            }
+        });
+        openMessageButton.addEventListener('click', () => {
+            messageModal.style.display = 'flex';
+        });
+        closeButton.addEventListener('click', () => {
+            messageModal.style.display = 'none';
+        });
+        window.addEventListener('click', (e) => {
+            if (e.target === messageModal) {
+                messageModal.style.display = 'none';
+            }
+        });
+        function generateConfetti() {
+            const confettiCount = 100;
+            const colors = ['#ff6347', '#ffb74d', '#7986cb', '#81c784', '#e5533d', '#f06292'];
+            for (let i = 0; i < confettiCount; i++) {
+                const confetti = document.createElement('div');
+                confetti.classList.add('confetti');
+                confetti.style.left = Math.random() * 100 + 'vw';
+                confetti.style.width = Math.random() * 8 + 5 + 'px';
+                confetti.style.height = Math.random() * 8 + 5 + 'px';
+                confetti.style.animationDuration = Math.random() * 2 + 3 + 's';
+                confetti.style.animationDelay = Math.random() * 2 + 's';
+                confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+                if (Math.random() > 0.7) {
+                    confetti.classList.add('confetti-slow');
+                } else if (Math.random() > 0.5) {
+                    confetti.classList.add('confetti-fast');
+                }
+                confettiContainer.appendChild(confetti);
+            }
+        }
+    </script>
+</body>
+</html>
