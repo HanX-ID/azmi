@@ -201,29 +201,13 @@
         .confetti-fast { animation-duration: 2s; animation-delay: 0.5s; }
         @keyframes fadeInScale { from { opacity: 0; transform: scale(0.8); } to { opacity: 1; transform: scale(1); } }
         @keyframes scaleIn { from { transform: scale(0.8); opacity: 0; } to { transform: scale(1); opacity: 1; } }
-        @keyframes headingPulse {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.05); }
-            100% { transform: scale(1); }
-        }
-        @keyframes photoBounce {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-10px); }
-        }
-        @keyframes floatAnim {
-            0% { transform: translate(0, 0) rotate(0deg); }
-            100% { transform: translate(15px, -15px) rotate(8deg); }
-        }
-        @keyframes floatAnimReverse {
-            0% { transform: translate(0, 0) rotate(0deg); }
-            100% { transform: translate(-15px, 15px) rotate(-8deg); }
-        }
+        @keyframes headingPulse { 0% { transform: scale(1); } 50% { transform: scale(1.05); } 100% { transform: scale(1); } }
+        @keyframes photoBounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
+        @keyframes floatAnim { 0% { transform: translate(0, 0) rotate(0deg); } 100% { transform: translate(15px, -15px) rotate(8deg); } }
+        @keyframes floatAnimReverse { 0% { transform: translate(0, 0) rotate(0deg); } 100% { transform: translate(-15px, 15px) rotate(-8deg); } }
         @keyframes modalFadeIn { from { opacity: 0; } to { opacity: 1; } }
         @keyframes modalScaleUp { from { transform: scale(0.8); } to { transform: scale(1); } }
-        @keyframes confetti-fall {
-            0% { transform: translateY(-100vh) rotate(0deg); opacity: 1; }
-            100% { transform: translateY(100vh) rotate(720deg); opacity: 0.5; }
-        }
+        @keyframes confetti-fall { 0% { transform: translateY(-100vh) rotate(0deg); opacity: 1; } 100% { transform: translateY(100vh) rotate(720deg); opacity: 0.5; } }
         @media (max-width: 768px) {
             h1 { font-size: 2em; }
             h2 { font-size: 1.2em; }
@@ -246,7 +230,7 @@
         <img src="love3.png" alt="Love Emoji" class="love-emoji pos3">
         <h1>Buka Pesan Spesial Ini!</h1>
         <p>ada sesuatu niee coba buka kalo penasarann</p>
-        <button class="intro-button" id="startButton">disini!</button>
+        <button class="intro-button" id="startButton">klik ini</button>
     </div>
     <div class="main-container" id="mainPage">
         <img src="dino1.png" alt="Dino Nailong" class="dino-nailong bottom-left">
@@ -286,30 +270,46 @@
         const messageModal = document.getElementById('messageModal');
         const closeButton = document.querySelector('.close-button');
         const confettiContainer = document.querySelector('.confetti-container');
-        let clickCounter = 5;
+        let clickCounter = 0;
+
         startButton.addEventListener('click', () => {
-            clickCounter--;
-            if (clickCounter <= 0) {
-                introPage.style.display = 'none';
-                mainPage.style.display = 'block';
-                audio.play();
-                generateConfetti();
-                startButton.textContent = 'disini!';
-            } else {
-                startButton.textContent = `${clickCounter} kali lagi`;
+            clickCounter++;
+            switch (clickCounter) {
+                case 1:
+                    startButton.textContent = 'klik ini';
+                    break;
+                case 2:
+                    startButton.textContent = 'klik lagi';
+                    break;
+                case 3:
+                    startButton.textContent = 'sekali lagi';
+                    break;
+                case 4:
+                    startButton.textContent = '1X lagi beneran';
+                    break;
+                case 5:
+                    introPage.style.display = 'none';
+                    mainPage.style.display = 'block';
+                    audio.play().catch(() => {});
+                    generateConfetti();
+                    break;
             }
         });
+
         openMessageButton.addEventListener('click', () => {
             messageModal.style.display = 'flex';
         });
+
         closeButton.addEventListener('click', () => {
             messageModal.style.display = 'none';
         });
+
         window.addEventListener('click', (e) => {
             if (e.target === messageModal) {
                 messageModal.style.display = 'none';
             }
         });
+
         function generateConfetti() {
             const confettiCount = 100;
             const colors = ['#ff6347', '#ffb74d', '#7986cb', '#81c784', '#e5533d', '#f06292'];
