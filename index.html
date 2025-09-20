@@ -129,6 +129,19 @@
         .love-emoji.pos3 { top: 20%; right: 15%; animation-delay: 1.5s; }
         .love-emoji.pos4 { bottom: 5%; left: 15%; animation: floatAnimReverse 3.2s ease-in-out infinite alternate; animation-delay: 0.4s; }
         .love-emoji.pos5 { top: 10%; left: 25%; animation-delay: 1s; }
+        .balloon {
+            position: absolute;
+            width: 60px;
+            animation: floatAnim 3s ease-in-out infinite alternate;
+            z-index: 5;
+            display: none; /* Awalnya disembunyiin */
+            opacity: 0; /* Untuk efek fade-in */
+            transition: opacity 0.5s ease-in;
+        }
+        .balloon.button-top-left { top: -30px; left: 20%; animation-delay: 0.3s; }
+        .balloon.button-top-right { top: -30px; right: 20%; animation: floatAnimReverse 3s ease-in-out infinite alternate; animation-delay: 0.7s; }
+        .balloon.button-bottom-left { bottom: -30px; left: 20%; animation-delay: 0.5s; }
+        .balloon.button-bottom-right { bottom: -30px; right: 20%; animation: floatAnim 3.5s ease-in-out infinite alternate; animation-delay: 0.9s; }
         .message-modal {
             display: none;
             position: fixed;
@@ -217,6 +230,7 @@
             .photo-container img { width: 150px; height: 150px; }
             .dino-nailong { width: 80px; }
             .love-emoji { width: 40px; }
+            .balloon { width: 50px; }
         }
     </style>
 </head>
@@ -250,6 +264,11 @@
             <img id="photo-target" src="foto.jpg" alt="Foto Ulang Tahun">
         </div>
         <button class="intro-button" id="openMessageButton">pencet aku</button>
+        <!-- Balon cuma di area tombol "pencet aku" -->
+        <img src="https://files.catbox.moe/7rjnzs.png" alt="Balloon" class="balloon button-top-left">
+        <img src="https://files.catbox.moe/7rjnzs.png" alt="Balloon" class="balloon button-top-right">
+        <img src="https://files.catbox.moe/7rjnzs.png" alt="Balloon" class="balloon button-bottom-left">
+        <img src="https://files.catbox.moe/7rjnzs.png" alt="Balloon" class="balloon button-bottom-right">
     </div>
     <div id="messageModal" class="message-modal">
         <div class="modal-content">
@@ -273,6 +292,7 @@
         const messageModal = document.getElementById('messageModal');
         const closeButton = document.querySelector('.close-button');
         const confettiContainer = document.querySelector('.confetti-container');
+        const balloons = document.querySelectorAll('.balloon');
         let clickCounter = 0;
 
         startButton.addEventListener('click', () => {
@@ -295,6 +315,13 @@
                     mainPage.style.display = 'block';
                     audio.play().catch(() => {});
                     generateConfetti();
+                    // Munculin balon pas tombol "pencet aku" muncul
+                    setTimeout(() => {
+                        balloons.forEach(balloon => {
+                            balloon.style.display = 'block';
+                            setTimeout(() => balloon.style.opacity = '1', 100); // Efek fade-in
+                        });
+                    }, 700); // Sinkron sama animasi scaleIn (0.7s)
                     break;
             }
         });
